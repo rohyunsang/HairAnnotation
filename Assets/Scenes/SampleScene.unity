@@ -617,8 +617,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c505a63eb945349ac2606130293950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: 
+  directoryPath: 
   AdjsustImageObj: {fileID: 1306672932}
+  allJpgFiles: []
+  allDirectoryNames: []
 --- !u!4 &204374448
 Transform:
   m_ObjectHideFlags: 0
@@ -3917,7 +3919,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 204374447}
         m_TargetAssemblyTypeName: FileBrowserTest, Assembly-CSharp
-        m_MethodName: ShowFileBrowser
+        m_MethodName: ShowFileBrowserOnlyJPG
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -69,7 +69,7 @@ public class AdjustImage : MonoBehaviour
 
     public void MakePixelLengthFile()  // using CheckBtn in DotListImage in AdjustingPanel
     {
-        string path = FileBrowserObj.GetComponent<FileBrowserTest>().filePath + "/조정용.txt";
+        string path = FileBrowserObj.GetComponent<FileBrowserTest>().directoryPath + "/조정용.txt";
 
         // 파일이 이미 존재하는 경우 삭제
         if (File.Exists(path))
