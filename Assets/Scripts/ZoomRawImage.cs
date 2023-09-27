@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 public class ZoomRawImage : MonoBehaviour, IPointerClickHandler
 {
     public RawImage rawImage;
+    public GameObject circlePrefab;
+    private List<GameObject> spawnedObjects = new List<GameObject>();
 
     float zoomLevel = 0.5f;
     Vector2 zoomCenter = new Vector2(0.5f, 0.5f);
@@ -21,6 +23,9 @@ public class ZoomRawImage : MonoBehaviour, IPointerClickHandler
     private bool isDragging = false;
     private Vector2 startDragPosition;
     private Vector2 startZoomCenter;
+
+    const float rawImageWidth = 1200f;
+    const float rawImageHeight = 800f;
 
     void Update()
     {
@@ -61,12 +66,22 @@ public class ZoomRawImage : MonoBehaviour, IPointerClickHandler
             Vector2 dragDelta = (Vector2)Input.mousePosition - startDragPosition;
 
             // 화면 크기에 따라 이동량을 조절합니다.
-            float dragFactor = zoomLevel / rawImage.rectTransform.rect.width;
-            zoomCenter = startZoomCenter - dragDelta * dragFactor;
+            float widthRatio = rawImage.texture.width / rawImageWidth;
+            float heightRatio = rawImage.texture.height / rawImageHeight;
+            float dragFactor = zoomLevel / (rawImageWidth * widthRatio);
+            Vector2 movement = dragDelta * dragFactor;
+
+            zoomCenter = startZoomCenter - movement;
 
             // zoomCenter 값을 유효한 범위 내로 제한합니다.
             zoomCenter.x = Mathf.Clamp(zoomCenter.x, 0.5f * zoomLevel, 1 - 0.5f * zoomLevel);
             zoomCenter.y = Mathf.Clamp(zoomCenter.y, 0.5f * zoomLevel, 1 - 0.5f * zoomLevel);
+
+            // RawImage의 이동과 동일하게 오브젝트들을 이동합니다.
+            foreach (GameObject obj in spawnedObjects)
+            {
+                obj.transform.localPosition += new Vector3(movement.x * rawImageWidth, movement.y * rawImageHeight, 0);
+            }
 
             ApplyZoom();
         }
@@ -86,21 +101,17 @@ public class ZoomRawImage : MonoBehaviour, IPointerClickHandler
                     (localPoint.x / rawImage.rectTransform.rect.width + 0.5f) * currentUVRect.width + currentUVRect.x,
                     (localPoint.y / rawImage.rectTransform.rect.height + 0.5f) * currentUVRect.height + currentUVRect.y
                 );
-                Debug.Log(localPoint.x + " " + localPoint.y);
-                Debug.Log("Clicked UV Coord: " + uvCoord);
-
-
-                Vector2 imageSize = new Vector2(rawImage.texture.width, rawImage.texture.height);
+                Vector2 imageSize = new Vector2(rawImageWidth, rawImageHeight);
                 Vector2 clickedPositionInImage = new Vector2(uvCoord.x * imageSize.x, uvCoord.y * imageSize.y);
 
-                Debug.Log("Clicked position in the full image: " + clickedPositionInImage);
+                // 실제 게임 월드에서의 위치를 계산
+                Vector3 spawnPosition = rawImage.rectTransform.TransformPoint(localPoint);
 
-                // texture converting cost...
-                // Or making new layer 
-                // texture converting needs some undo button 
-                // making layer too.. 
+                // 오브젝트 생성
+                GameObject spawnedObject = Instantiate(circlePrefab, spawnPosition, Quaternion.identity, rawImage.transform);
 
-                // ummm.....
+                // 생성된 오브젝트의 참조를 리스트에 추가
+                spawnedObjects.Add(spawnedObject);
             }
         }
     }

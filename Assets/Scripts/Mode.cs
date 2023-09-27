@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Mode : MonoBehaviour, IPointerClickHandler
+public class Mode : MonoBehaviour//, IPointerClickHandler
 {
     public GameObject circlePrefab;
     public RawImage rawImage;
 
+    /*
     public void OnPointerClick(PointerEventData eventData) // mouse click instant circle
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -24,4 +25,6 @@ public class Mode : MonoBehaviour, IPointerClickHandler
         }
 
     }
+    */
+    
 }

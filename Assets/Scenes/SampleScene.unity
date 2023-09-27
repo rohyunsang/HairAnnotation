@@ -2191,6 +2191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rawImage: {fileID: 945442763}
+  circlePrefab: {fileID: 6467952595873649915, guid: be4dc14ed5e355248b648ff1a72261b3, type: 3}
   zoomSpeed: 0.1
   minZoomLevel: 0.1
   maxZoomLevel: 1
@@ -2622,11 +2623,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7883499898835196422, guid: 096d1e598b197984cb24e142986ad9e5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -155.58202
+      value: -155.58203
       objectReference: {fileID: 0}
     - target: {fileID: 7883499898835196422, guid: 096d1e598b197984cb24e142986ad9e5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7883499898835196423, guid: 096d1e598b197984cb24e142986ad9e5, type: 3}
       propertyPath: m_CellSize.x
@@ -2714,7 +2715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7883499899152613936, guid: 096d1e598b197984cb24e142986ad9e5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -767.14166
+      value: -767.1417
       objectReference: {fileID: 0}
     - target: {fileID: 7883499899152613936, guid: 096d1e598b197984cb24e142986ad9e5, type: 3}
       propertyPath: m_AnchoredPosition.y
