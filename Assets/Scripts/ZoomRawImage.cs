@@ -12,7 +12,7 @@ public class ZoomRawImage : MonoBehaviour, IDragHandler, IScrollHandler
     private RectTransform rectTransform;
     private Vector3 initialScale;
     private float zoomSpeed = 0.1f;
-    private float maxZoom = 5.0f;
+    private float maxZoom = 10.0f;
 
     private void Start()
     {
