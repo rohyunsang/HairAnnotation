@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Mode : MonoBehaviour//, IPointerClickHandler
+public class Mode : MonoBehaviour, IPointerClickHandler
 {
     public GameObject circlePrefab;
     public RawImage rawImage;
+    // 생성된 circlePrefab들을 저장하는 리스트
+    private List<GameObject> instantiatedCircles = new List<GameObject>();
 
-    /*
     public void OnPointerClick(PointerEventData eventData) // mouse click instant circle
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -21,10 +22,11 @@ public class Mode : MonoBehaviour//, IPointerClickHandler
                 Vector2 localPoint;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(rawImage.rectTransform, eventData.position, eventData.pressEventCamera, out localPoint);
                 GameObject newCircle = Instantiate(circlePrefab, rawImage.rectTransform.TransformPoint(localPoint), Quaternion.identity, rawImage.transform);
+
+                // 생성된 circlePrefab을 리스트에 추가
+                instantiatedCircles.Add(newCircle);
             }
         }
-
     }
-    */
-    
+
 }
