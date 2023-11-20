@@ -42,4 +42,7 @@ public class ZoomRawImage : MonoBehaviour, IDragHandler, IScrollHandler
         desiredScale = Vector3.Min(initialScale * maxZoom, desiredScale);
         return desiredScale;
     }
+
+
+    // ing ...
 }
