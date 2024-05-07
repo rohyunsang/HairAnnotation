@@ -1,1 +1,1 @@
-# FaceAnnotationTool
+# HairAnnotationTool
