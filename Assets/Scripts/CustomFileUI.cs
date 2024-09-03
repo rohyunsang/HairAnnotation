@@ -18,6 +18,7 @@ public class CustomFileUI : MonoBehaviour
     {
         // 클릭된 버튼의 이름 가져오기
         string clickedButtonName = clickedButton.name;
+        
 
         // 모든 버튼을 순회하면서
         foreach (GameObject button in buttons)
@@ -37,6 +38,13 @@ public class CustomFileUI : MonoBehaviour
         // buttons에서
         string s = clickedButton.name;
         string[] parts = s.Split('_');
+        
+        if(parts.Length > 1)
+        {
+            FindObjectOfType<App>().currentFolderName = parts[0];
+            FindObjectOfType<App>().currentImageName = parts[1];
+        }
+
         Dictionary<string, byte[]> innerDict = fileBrowserObj.GetComponent<FileBrowserTest>().jpgDict[parts[0]];
         byte[] imageData = innerDict[parts[1]];
         // byte[]로부터 Texture2D 생성하기
@@ -45,6 +53,21 @@ public class CustomFileUI : MonoBehaviour
 
         // Texture2D를 RawImage의 텍스처로 설정하기
         rawImage.texture = texture;
+
+        InitRawImage();
+    }
+
+    private void InitRawImage()
+    {
+        FindObjectOfType<ManualCircle>().circles.Clear();
+        FindObjectOfType<ManualCircle>().circleGroups.Clear();
+        FindObjectOfType<ManualCircle>().circleCount = 0;
+
+        // rawImage의 모든 자식 오브젝트 삭제
+        foreach (Transform child in rawImage.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
 

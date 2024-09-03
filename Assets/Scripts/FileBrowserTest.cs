@@ -78,6 +78,7 @@ public class FileBrowserTest : MonoBehaviour
                 if (extension == "")
                 {
                     Debug.Log("Selected a directory: " + FileBrowser.Result[i]);
+                    FindObjectOfType<App>().directoryPath = FileBrowser.Result[i];
 
                     // Process all .jpg files
                     List<string> jpgFiles = GetAllFilesInDirectory(FileBrowser.Result[i], "*.jpg");  // get all jpgs

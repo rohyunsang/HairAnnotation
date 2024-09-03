@@ -16,16 +16,11 @@ public class CircleMoving : MonoBehaviour, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 newPos = rectTransform.anchoredPosition + eventData.delta;
+        Vector2 newPos = rectTransform.anchoredPosition + eventData.delta * 0.2f;
 
-        float adjustedPosX = newPos.x - rectTransform.rect.width * rectTransform.pivot.x;
-        float adjustedPosY = newPos.y - rectTransform.rect.height * rectTransform.pivot.y;
+        // float adjustedPosX = newPos.x - rectTransform.rect.width * rectTransform.pivot.x;
+        // float adjustedPosY = newPos.y - rectTransform.rect.height * rectTransform.pivot.y;
 
         rectTransform.anchoredPosition = newPos;
-
-        if (lineConnector != null)
-        {
-            lineConnector.Update();  // 원의 위치가 변경될 때마다 UILineConnector의 Update 메서드를 호출하여 선을 갱신합니다.
-        }
     }
 }

@@ -9,8 +9,9 @@ public class PanelManager : MonoBehaviour
     public GameObject InitPanel;
     public GameObject OptionPanel;
     public GameObject MainPanel;
-
     public GameObject AdjustingPanel;
+
+
 
     public void OnAdjustingPanel(){      // using Btn : NewCameraBtn in InitPanel 
         AdjustingPanel.SetActive(true);

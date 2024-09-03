@@ -19,12 +19,12 @@ public class Mode : MonoBehaviour, IPointerClickHandler
             if (RectTransformUtility.RectangleContainsScreenPoint(rawImage.rectTransform, eventData.position, eventData.pressEventCamera))
             {
                 // Instantiate circlePrefab at the mouse position
-                Vector2 localPoint;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rawImage.rectTransform, eventData.position, eventData.pressEventCamera, out localPoint);
-                GameObject newCircle = Instantiate(circlePrefab, rawImage.rectTransform.TransformPoint(localPoint), Quaternion.identity, rawImage.transform);
+                // Vector2 localPoint;
+                //RectTransformUtility.ScreenPointToLocalPointInRectangle(rawImage.rectTransform, eventData.position, eventData.pressEventCamera, out localPoint);
+                //GameObject newCircle = Instantiate(circlePrefab, rawImage.rectTransform.TransformPoint(localPoint), Quaternion.identity, rawImage.transform);
 
                 // 생성된 circlePrefab을 리스트에 추가
-                instantiatedCircles.Add(newCircle);
+                //instantiatedCircles.Add(newCircle);
             }
         }
     }
