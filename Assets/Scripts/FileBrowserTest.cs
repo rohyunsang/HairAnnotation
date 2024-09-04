@@ -16,7 +16,12 @@ public class FileBrowserTest : MonoBehaviour
     public List<string> allJpgFileNames = new List<string>(); // All .jpg files including those in subdirectories
     public List<byte[]> allJpgFiles = new List<byte[]>();
 
+    public List<string> allJsonFileNames = new List<string>();
+    public List<byte[]> allJsonFiles = new List<byte[]>();
+    public Dictionary<string, byte[]> jsonDict = new Dictionary<string, byte[]>();
+
     private List<string> allDirectoryNames = new List<string>(); // Names of all directories
+    
 
     public void ShowFileBrowserOnlyJPG()
     {
@@ -50,7 +55,6 @@ public class FileBrowserTest : MonoBehaviour
                 }
             }
 
-
             AdjsustImageObj.GetComponent<AdjustImage>().InitRawImage();
         }
     }
@@ -77,39 +81,67 @@ public class FileBrowserTest : MonoBehaviour
 
                 if (extension == "")
                 {
+                    // 선택한 경로가 디렉토리인 경우
                     Debug.Log("Selected a directory: " + FileBrowser.Result[i]);
                     FindObjectOfType<App>().directoryPath = FileBrowser.Result[i];
 
-                    // Process all .jpg files
-                    List<string> jpgFiles = GetAllFilesInDirectory(FileBrowser.Result[i], "*.jpg");  // get all jpgs
-                    Debug.Log(jpgFiles.Count + " .jpg files found in the directory.");
-                    //allJpgFileNames.AddRange(jpgFiles); // add name
-                    List<string> sortedJpgFiles = jpgFiles.OrderBy(Path.GetFileName).ToList();  //sorting
-                    foreach (string jpgFile in sortedJpgFiles)
-                    {
-                        byte[] fileBytes = FileBrowserHelpers.ReadBytesFromFile(jpgFile);
-                        string fileName = Path.GetFileName(jpgFile);
-                        string currentDirectory = Path.GetDirectoryName(jpgFile);
-                        string currentDirectoryName = Path.GetFileName(currentDirectory);
+                    // .jpg 파일과 .json 파일을 모두 처리하기 위한 함수 호출
+                    ProcessDirectory(FileBrowser.Result[i]);
 
-                        string combinedFileName = Path.GetFileName(currentDirectory) + "_" + fileName; // Combine directory name and file name
-                        
-                        if (!jpgDict.ContainsKey(currentDirectoryName))
-                        {
-                            jpgDict[currentDirectoryName] = new Dictionary<string, byte[]>();
-                        }
-                        jpgDict[currentDirectoryName].Add(fileName,fileBytes);
-
-                        allJpgFileNames.Add(combinedFileName);
-                        allJpgFiles.Add(fileBytes);
-                        directoryPath = Path.GetDirectoryName(jpgFile);
-                    }
-
+                    // UI 업데이트
                     CustomFileUIObj.GetComponent<CustomFileUI>().ScrollViewInstantiate(jpgDict);
 
                     string destinationPath = Path.Combine(Application.persistentDataPath, FileBrowserHelpers.GetFilename(FileBrowser.Result[i]));
                     FileBrowserHelpers.CopyFile(FileBrowser.Result[i], destinationPath);
                 }
+            }
+        }
+    }
+    public void ProcessDirectory(string directoryPath)
+    {
+        // .jpg 파일 처리
+        List<string> jpgFiles = GetAllFilesInDirectory(directoryPath, "*.jpg");
+        Debug.Log(jpgFiles.Count + " .jpg files found in the directory.");
+        List<string> sortedJpgFiles = jpgFiles.OrderBy(Path.GetFileName).ToList();  // sorting
+
+        foreach (string jpgFile in sortedJpgFiles)
+        {
+            byte[] fileBytes = FileBrowserHelpers.ReadBytesFromFile(jpgFile);
+            string fileName = Path.GetFileName(jpgFile);
+            string currentDirectory = Path.GetDirectoryName(jpgFile);
+            string currentDirectoryName = Path.GetFileName(currentDirectory);
+
+            if (!jpgDict.ContainsKey(currentDirectoryName))
+            {
+                jpgDict[currentDirectoryName] = new Dictionary<string, byte[]>();
+            }
+            jpgDict[currentDirectoryName].Add(fileName, fileBytes);
+
+            allJpgFileNames.Add(currentDirectoryName + "_" + fileName);
+            allJpgFiles.Add(fileBytes);
+        }
+
+        // .json 파일 처리
+        List<string> jsonFiles = GetAllFilesInDirectory(directoryPath, "*.json");
+        Debug.Log(jsonFiles.Count + " .json files found in the directory.");
+
+        foreach (string jsonFile in jsonFiles)
+        {
+            byte[] jsonFileBytes = FileBrowserHelpers.ReadBytesFromFile(jsonFile);
+            allJsonFiles.Add(jsonFileBytes);
+
+            string jsonFileName = Path.GetFileName(jsonFile);
+            string currentDirectory = Path.GetDirectoryName(jsonFile);
+            string currentDirectoryName = Path.GetFileName(currentDirectory);
+
+            // 파일 이름을 allJsonFileNames 리스트에 추가
+            allJsonFileNames.Add(jsonFileName);
+            Debug.Log(jsonFileName + "Debug");
+
+            // jsonDict에 파일 이름과 byte[] 데이터 추가
+            if (!jsonDict.ContainsKey(jsonFileName))
+            {
+                jsonDict.Add(jsonFileName, jsonFileBytes);
             }
         }
     }

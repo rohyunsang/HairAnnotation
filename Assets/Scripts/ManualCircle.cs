@@ -78,6 +78,8 @@ public class ManualCircle : MonoBehaviour, IPointerClickHandler
                     new Vector2(group.circles[2].x, group.circles[2].y)
                 );
 
+                thickness *= 5f; // rawImage 1200 * 800, Origin Image 6000 * 4000
+
                 // thickness 값을 리스트에 추가
                 thicknesses.Add(thickness);
 
